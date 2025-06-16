@@ -1,0 +1,53 @@
+def create_matrix(key):
+    key = key.upper().replace('J', 'I')
+    matrix = []
+    used = set()
+    for char in key + "ABCDEFGHIKLMNOPQRSTUVWXYZ":
+        if char not in used:
+            matrix.append(char)
+            used.add(char)
+    return [matrix[i:i+5] for i in range(0, 25, 5)]
+def find_position(matrix, char):
+    for row in range(5):
+        for col in range(5):
+            if matrix[row][col] == char:
+                return row, col
+    return None
+def prepare_text(text):
+    text = text.upper().replace('J', 'I')
+    result = ""
+    i = 0
+    while i < len(text):
+        a = text[i]
+        b = text[i+1] if i + 1 < len(text) else 'X'
+        if a == b:
+            result += a + 'X'
+            i += 1
+        else:
+            result += a + b
+            i += 2
+    if len(result) % 2 != 0:
+        result += 'X'
+    return result
+def encrypt_pair(matrix, a, b):
+    row1, col1 = find_position(matrix, a)
+    row2, col2 = find_position(matrix, b)
+    if row1 == row2:
+        return matrix[row1][(col1+1)%5] + matrix[row2][(col2+1)%5]
+    elif col1 == col2:
+        return matrix[(row1+1)%5][col1] + matrix[(row2+1)%5][col2]
+    else:
+        return matrix[row1][col2] + matrix[row2][col1]
+def playfair_encrypt(key, plaintext):
+    matrix = create_matrix(key)
+    text = prepare_text(plaintext)
+    encrypted = ""
+    for i in range(0, len(text), 2):
+        encrypted += encrypt_pair(matrix, text[i], text[i+1])
+    return encrypted
+if __name__ == "__main__":
+    print("Playfair Cipher Encryption")
+    keyword = input("Enter keyword: ")
+    message = input("Enter plaintext message: ")
+    cipher = playfair_encrypt(keyword, message)
+    print("Encrypted message:", cipher)
