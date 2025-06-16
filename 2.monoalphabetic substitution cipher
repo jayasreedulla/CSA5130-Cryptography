@@ -1,0 +1,19 @@
+import string
+plaintext_alphabet = string.ascii_lowercase
+ciphertext_alphabet = "QWERTYUIOPASDFGHJKLZXCVBNM".lower()  
+encrypt_dict = dict(zip(plaintext_alphabet, ciphertext_alphabet))
+decrypt_dict = dict(zip(ciphertext_alphabet, plaintext_alphabet))
+def encrypt(text):
+    return ''.join(encrypt_dict.get(c, c) for c in text.lower())
+def decrypt(text):
+    return ''.join(decrypt_dict.get(c, c) for c in text.lower())
+if __name__ == "__main__":
+    print("Monoalphabetic Substitution Cipher")
+    choice = input("Type 'e' to encrypt or 'd' to decrypt: ").lower()
+    message = input("Enter the message: ")
+    if choice == 'e':
+        print("Encrypted:", encrypt(message))
+    elif choice == 'd':
+        print("Decrypted:", decrypt(message))
+    else:
+        print("Invalid choice.")
