@@ -1,0 +1,37 @@
+def generate_key(message, key):
+    key = key.upper()
+    key = (key * (len(message) // len(key))) + key[:len(message) % len(key)]
+    return key
+def encrypt_vigenere(message, key):
+    message = message.upper()
+    key = generate_key(message, key)
+    cipher_text = ""
+    for m, k in zip(message, key):
+        if m.isalpha():
+            shift = (ord(m) - ord('A') + ord(k) - ord('A')) % 26
+            cipher_text += chr(shift + ord('A'))
+        else:
+            cipher_text += m
+    return cipher_text
+def decrypt_vigenere(cipher_text, key):
+    cipher_text = cipher_text.upper()
+    key = generate_key(cipher_text, key)
+    message = ""
+    for c, k in zip(cipher_text, key):
+        if c.isalpha():
+            shift = (ord(c) - ord(k) + 26) % 26
+            message += chr(shift + ord('A'))
+        else:
+            message += c
+    return message
+if __name__ == "__main__":
+    print("Polyalphabetic (Vigenère) Cipher")
+    choice = input("Type 'e' to encrypt or 'd' to decrypt: ").lower()
+    text = input("Enter the message: ")
+    key = input("Enter the key (letters only): ")
+    if choice == 'e':
+        print("Encrypted:", encrypt_vigenere(text, key))
+    elif choice == 'd':
+        print("Decrypted:", decrypt_vigenere(text, key))
+    else:
+        print("Invalid choice.")
