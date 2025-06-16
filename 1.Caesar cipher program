@@ -1,0 +1,31 @@
+def caesar_encrypt(text, k):
+    result = ""
+    for char in text:
+        if char.isalpha():
+            offset = ord('A') if char.isupper() else ord('a')
+            shifted = (ord(char) - offset + k) % 26 + offset
+            result += chr(shifted)
+        else:
+            result += char  
+    return result
+def caesar_decrypt(text, k):
+    return caesar_encrypt(text, -k) 
+if __name__ == "__main__":
+    print("Caesar Cipher Program")
+    choice = input("Type 'e' to encrypt or 'd' to decrypt: ").lower()
+    message = input("Enter the message: ")
+    try:
+        k = int(input("Enter the shift (1-25): "))
+        if not 1 <= k <= 25:
+            raise ValueError
+    except ValueError:
+        print("Invalid input. Shift must be an integer between 1 and 25.")
+        exit()
+    if choice == 'e':
+        encrypted = caesar_encrypt(message, k)
+        print("Encrypted message:", encrypted)
+    elif choice == 'd':
+        decrypted = caesar_decrypt(message, k)
+        print("Decrypted message:", decrypted)
+    else:
+        print("Invalid choice. Please type 'e' or 'd'.")
