@@ -1,0 +1,28 @@
+# In this example, we simulate key generation and re-keying
+
+from Crypto.Util import number
+
+def generate_rsa_keys(bits=512):
+    e = 65537
+    while True:
+        p = number.getPrime(bits // 2)
+        q = number.getPrime(bits // 2)
+        n = p * q
+        phi = (p - 1) * (q - 1)
+        if number.GCD(e, phi) == 1:
+            break
+    d = number.inverse(e, phi)
+    return {'n': n, 'e': e, 'd': d}
+
+# Bob leaks his private key and decides to generate new (e,d) but reuse n
+# Demonstrate why this is not secure
+
+old_keys = generate_rsa_keys()
+print("Original keys:")
+print(f"n = {old_keys['n']}\ne = {old_keys['e']}\nd = {old_keys['d']}")
+
+# Bob tries to choose a new e2 and d2 without changing n
+# But since p and q are already known (by anyone who saw d), new e,d pairs are not secure
+# This is fundamentally unsafe
+
+print("\nIf private key is leaked, it is NOT safe to reuse n (must choose new p and q).")
