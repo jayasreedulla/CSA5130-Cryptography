@@ -1,0 +1,16 @@
+from collections import Counter
+import string
+
+def frequency_attack(ciphertext, top_n=10):
+    freq_order = 'ETAOINSHRDLCUMWFGYPBVKJXQZ'
+    cipher_freq = Counter(ciphertext.upper())
+    sorted_chars = [c for c, _ in cipher_freq.most_common() if c.isalpha()]
+    probable_mappings = dict(zip(sorted_chars, freq_order))
+    plaintext_guess = ''.join(probable_mappings.get(c.upper(), c) for c in ciphertext)
+    print("Possible plaintext guess:", plaintext_guess)
+    # In real attack: Generate permutations and rank them
+    # Here, we show one top guess for simplicity
+    return plaintext_guess
+
+cipher = "WKH TXLFN EURZQ IRA MXPSV RYHU WKH ODCB GRJ"
+frequency_attack(cipher)
