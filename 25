@@ -1,0 +1,6 @@
+import math
+
+def has_common_factor(p, n):
+    return math.gcd(p, n) != 1
+
+print(has_common_factor(123, 3599))  # Example
