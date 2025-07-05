@@ -1,0 +1,17 @@
+def left_shift(bits, n):
+    return bits[n:] + bits[:n]
+
+def generate_keys(key):
+    shifts = [1, 1, 2, 2, 2, 2, 2, 2,
+              1, 2, 2, 2, 2, 2, 2, 1]
+    keys = []
+    c, d = key[:28], key[28:]
+    for shift in shifts:
+        c, d = left_shift(c, shift), left_shift(d, shift)
+        keys.append(c + d)
+    return keys[::-1]  # reverse for decryption
+
+key = "1010101010111011000010010001100000100111001101101100110011011101"
+round_keys = generate_keys(key)
+for i, k in enumerate(round_keys, 1):
+    print(f"K{i}: {k}")
