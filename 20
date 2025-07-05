@@ -1,0 +1,6 @@
+from Crypto.Cipher import DES
+key = b'abcdefgh'
+cipher = DES.new(key, DES.MODE_ECB)
+plaintext = b'abcdefgh'
+ciphertext = cipher.encrypt(plaintext)
+print("Ciphertext:", ciphertext)
