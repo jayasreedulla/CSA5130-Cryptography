@@ -1,0 +1,19 @@
+# Example of encrypting small alphabet letters separately (insecure)
+
+def small_letter_attack():
+    alphabet = {chr(ord('A') + i): i for i in range(26)}
+    message = "HELLO"
+    encoded = [alphabet[c] for c in message]
+    print("Numeric representation:", encoded)
+
+    e = 17
+    n = 3233  # small modulus for demo (p=61, q=53)
+
+    # Encrypt each small integer separately
+    ciphertext = [pow(m, e, n) for m in encoded]
+    print("Ciphertext blocks:", ciphertext)
+
+    # In practice, an attacker can just try all 26 possible values and match
+    print("This scheme is vulnerable to exhaustive dictionary attack.")
+
+small_letter_attack()
