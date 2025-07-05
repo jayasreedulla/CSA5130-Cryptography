@@ -1,0 +1,17 @@
+def generate_subkeys(key):
+    c = key[:28]   # first 28 bits
+    d = key[28:]   # next 28 bits
+    keys = []
+    shifts = [1, 1, 2, 2, 2, 2, 2, 2,
+              1, 2, 2, 2, 2, 2, 2, 1]
+    for shift in shifts:
+        c = c[shift:] + c[:shift]
+        d = d[shift:] + d[:shift]
+        subkey = c[:24] + d[:24]  # 24 from each
+        keys.append(subkey)
+    return keys
+
+key = "11110000110011001010101011110101010101100110011110001111"
+keys = generate_subkeys(key)
+for i, k in enumerate(keys, 1):
+    print(f"Subkey {i}: {k}")
