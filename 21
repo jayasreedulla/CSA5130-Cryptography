@@ -1,0 +1,7 @@
+def pad(msg, block_size):
+    pad_len = block_size - len(msg) % block_size
+    return msg + b'\x80' + b'\x00' * (pad_len - 1)
+
+msg = b'hello'
+padded_msg = pad(msg, 8)
+print("Padded:", padded_msg)
